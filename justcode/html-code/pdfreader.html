@@ -1,0 +1,103 @@
+
+<html>
+
+<body onload="bodyOnloadHandler()">
+	<style>
+body {
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+}
+
+.finder {
+	border: 3px solid blue;
+	position: absolute;
+	z-index: 1000000;
+}
+
+.coordenate {
+	height: 30px;
+	float: right;
+	width: 120px;
+	padding: 20px;
+}
+
+.coordenate input {
+	width: 100%;
+}
+
+.a4 {
+	width: 21cm;
+	height: 29.7cm;
+	float: left;
+	overflow:hidden;
+}
+
+object{
+	overflow:hidden;
+}
+
+</style>
+
+	<script>
+	var WIDTH_FACTOR = 0.6619;
+	var HEIGHT_FACTOR = 0.6565;		
+
+	function positionChanged(){	
+		var x = document.getElementById("x").value;
+		var y = document.getElementById("y").value;
+		var width = document.getElementById("width").value;
+		var height = document.getElementById("height").value;
+		var box = document.getElementById("box");				
+		box.style.height = height * HEIGHT_FACTOR + "pt";		
+		box.style.width = width * WIDTH_FACTOR+ "pt";		
+		box.style.top =  parseInt(y) * HEIGHT_FACTOR + "pt";
+		box.style.left = parseInt(x) * WIDTH_FACTOR + "pt";	
+	}
+
+	
+	function bodyOnloadHandler(){ 		
+		document.getElementById("x").value = 235;
+		document.getElementById("y").value = 120;
+		document.getElementById("width").value = 375;
+		document.getElementById("height").value = 52;
+		document.getElementById("page").value = 1;
+		positionChanged();
+	}
+
+
+	function pageChanged(){
+		var page = document.getElementById("page").value;
+		var objectPdf= document.getElementById("object-pdf");
+		var oldsrc = objectPdf.data;	
+		objectPdf.data = oldsrc.replace(/\d*$/g,"") +  page;		
+	}
+</script>
+
+	<div class="coordenate">
+		<label>Página</label>
+		<input id="page" type="number" placeholder="Página" onchange="pageChanged()">
+		<br/>
+		<label>Coordenadas</label> <input id="x" type="number"
+			placeholder="Posição X" onchange="positionChanged()"
+			onclick="positionChanged()"> <input id="y" type="number"
+			placeholder="Posição Y" onchange="positionChanged()"
+			onclick="positionChanged()"> <input id="width" type="number"
+			placeholder="Largura" onchange="positionChanged()"
+			onclick="positionChanged()"> <input id="height" type="number"
+			placeholder="altura" onchange="positionChanged()"
+			onclick="positionChanged()">
+			
+	</div>
+
+	<div class="a4">
+		<div id="box" class="finder"></div>
+		<object id="object-pdf"
+			data="C:/Users/victor.bello/Downloads/CONTRATO%203.pdf?#view=FitH&toolbar=0&navpanes=0&scrollbar=0&embedded=true&page=1"
+			width="540px" height="733px" border="0" scrolling="no"   style="overflow:hidden" />
+	</div>
+
+</body>
+
+
+</html>
